@@ -11,10 +11,10 @@ script = ExtResource("1_g2els")
 jump_force = 700
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -65)
+position = Vector2(0, -9.536743e-07)
 scale = Vector2(0.125, 0.18749999)
 texture = ExtResource("1_3vyb7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -65)
+position = Vector2(0, -9.536743e-07)
 shape = SubResource("RectangleShape2D_g2els")

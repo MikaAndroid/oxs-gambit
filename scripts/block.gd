@@ -30,8 +30,8 @@ func _on_area_2d_area_entered(_area):
 	box_type *= -1
 	size_properties()
 
-func _process(delta):
-	self.global_position = Global.plr_pos
+#func _process(delta):
+	#self.global_position = Global.plr_pos
 
 func size_properties():
 	if box_type > 0: # for small box
