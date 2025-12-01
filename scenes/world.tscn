@@ -15,6 +15,7 @@ size = Vector2(1002.5, 103)
 [node name="Player" parent="." instance=ExtResource("1_nnsk1")]
 position = Vector2(149, 288)
 jump_force = 500
+push_force = 100.0
 
 [node name="platform" type="StaticBody2D" parent="."]
 
@@ -47,4 +48,4 @@ zoom = Vector2(2, 2)
 [node name="Box" parent="." instance=ExtResource("5_71j4m")]
 position = Vector2(352, 320)
 size_small = Vector2(1, 1)
-size_large = Vector2(2, 2)
+size_large = Vector2(3, 3)
