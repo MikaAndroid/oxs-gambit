@@ -47,4 +47,4 @@ zoom = Vector2(2, 2)
 [node name="Box" parent="." instance=ExtResource("5_71j4m")]
 position = Vector2(352, 320)
 size_small = Vector2(1, 1)
-size_large = Vector2(1, 1)
+size_large = Vector2(2, 2)

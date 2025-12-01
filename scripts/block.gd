@@ -5,6 +5,7 @@ extends RigidBody2D
 @export var box_type := 1
 
 @onready var collision_shape_2d = $CollisionShape2D
+@onready var sprite_2d = $Sprite2D
 #@onready var indicator_color = $CollisionShape2D/Colors/IndicatorColor
 #@onready var colors = $CollisionShape2D/Colors
 
@@ -26,9 +27,9 @@ func _ready():
 	self.mass = mass_default
 	size_properties()
 
-func _on_area_2d_area_entered(_area):
-	box_type *= -1
-	size_properties()
+#func _on_area_2d_area_entered(_area):
+	#box_type *= -1
+	#size_properties()
 
 #func _process(delta):
 	#self.global_position = Global.plr_pos
@@ -42,10 +43,12 @@ func size_properties():
 		#indicator_color.color = Color(0, 1, 0)
 		#colors.scale = size_small
 		collision_shape_2d.shape.size = size_default * size_small
+		sprite_2d.scale = size_small
 		self.mass = mass_default * size_small.x
 
 	elif box_type < 0: # for large box
 		#indicator_color.color = Color(1, 0, 0)
 		#colors.scale = size_large
 		collision_shape_2d.shape.size = size_default * size_large
+		sprite_2d.scale = size_large
 		self.mass = mass_default * size_large.x
