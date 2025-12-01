@@ -33,6 +33,10 @@ func _on_area_2d_area_entered(_area):
 #func _process(delta):
 	#self.global_position = Global.plr_pos
 
+func toggle_size():
+	box_type *= -1
+	size_properties()
+
 func size_properties():
 	if box_type > 0: # for small box
 		#indicator_color.color = Color(0, 1, 0)
