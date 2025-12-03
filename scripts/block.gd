@@ -38,21 +38,6 @@ func toggle_size():
 	box_type *= -1
 	size_properties()
 
-# Fungsi saat box diambil
-func pickup_box():
-	freeze = true # Membekukan fisika agar bisa digerakkan manual
-	# Opsional: Matikan collision layer agar tidak menabrak player saat dibawa
-	collision_layer = 2
-	collision_mask = 2
-
-# Fungsi saat box dilepas/dilempar
-func drop_box(impulse_vector: Vector2 = Vector2.ZERO):
-	freeze = false # Nyalakan kembali fisika
-	apply_central_impulse(impulse_vector) # Berikan sedikit dorongan (opsional)
-	# Kembalikan collision ke normal
-	collision_layer = 1
-	collision_mask = 1
-
 func size_properties():
 	if box_type > 0: # for small box
 		#indicator_color.color = Color(0, 1, 0)

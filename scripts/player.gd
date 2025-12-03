@@ -55,11 +55,7 @@ func _input(event):
 		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 			cast_ray_to_mouse()
 
-		if event is InputEventKey and event.pressed and event.keycode == KEY_E:
-			if held_object == null:
-				try_pickup() # Jika tangan kosong, coba ambil
-		else:
-			drop_object() # Jika sedang bawa, lepaskan
+		
 
 func cast_ray_to_mouse():
 		# 1. Ambil state physics dunia game saat ini
@@ -87,24 +83,3 @@ func cast_ray_to_mouse():
 			if object_hit.has_method("toggle_size"):
 				object_hit.toggle_size()
 				print("Box terkena raycast!")
-
-func try_pickup():
-	# Gunakan logic yang mirip dengan raycast sebelumnya, tapi untuk mengambil
-	var space_state = get_world_2d().direct_space_state
-	var query = PhysicsRayQueryParameters2D.create(global_position, get_global_mouse_position())
-	query.exclude = [self]
-	var result = space_state.intersect_ray(query)
-
-	if result:
-		var collider = result.collider
-		# Cek apakah collider punya fungsi pickup_box (berarti dia Box)
-		if collider.has_method("pickup_box"):
-			held_object = collider
-			held_object.pickup_box() # Panggil fungsi di script block.gd
-			print("Box diambil!")
-
-func drop_object():
-	if held_object != null:
-		held_object.drop_box() # Panggil fungsi drop di script block.gd
-		held_object = null # Kosongkan tangan
-		print("Box dilepas!")

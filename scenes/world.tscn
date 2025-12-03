@@ -16,6 +16,7 @@ size = Vector2(1002.5, 103)
 position = Vector2(149, 288)
 jump_force = 500
 push_force = 100.0
+pickup_radius = 1000.0
 
 [node name="platform" type="StaticBody2D" parent="."]
 
