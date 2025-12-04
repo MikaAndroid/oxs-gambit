@@ -4,10 +4,12 @@ extends CharacterBody2D
 @export var gravity = 30
 @export var jump_force = 300
 @export var push_force = 15.0
-@export var pickup_radius = 100.0 # Seberapa jauh box bisa melayang dari player
-var held_object: RigidBody2D = null # Menyimpan objek yang sedang dipegang
+var is_in_range: bool = false
+var target_object: Node2D
+@onready var hand_position: Marker2D = $HandPosition
 
 func _physics_process(delta):
+	pickup_object()
 	if !is_on_floor():
 		velocity.y += gravity
 		if velocity.y > 500:
@@ -33,20 +35,6 @@ func _physics_process(delta):
 			# Terapkan gaya hanya pada sumbu horizontal agar box tidak terbang aneh
 			collider.apply_central_impulse(Vector2(push_direction.x * push_force, 0))
 
-	if held_object != null:
-			# Hitung posisi mouse
-		var target_pos = get_global_mouse_position()
-
-			# Hitung vektor jarak dari Player ke Mouse
-		var direction_to_mouse = target_pos - global_position
-
-			# Batasi jaraknya dengan radius (Clamping)
-		if direction_to_mouse.length() > pickup_radius:
-			target_pos = global_position + direction_to_mouse.normalized() * pickup_radius
-
-			# Pindahkan objek yang dipegang ke posisi target
-			held_object.global_position = target_pos
-
 	Global.plr_pos = self.global_position
 	#print(velocity)
 
@@ -55,8 +43,11 @@ func _input(event):
 		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 			cast_ray_to_mouse()
 
+func pickup_object() -> void:
+	if is_in_range:
+		if Input.is_action_just_pressed("pickup"):
+			target_object.reparent(hand_position)
 		
-
 func cast_ray_to_mouse():
 		# 1. Ambil state physics dunia game saat ini
 		var space_state = get_world_2d().direct_space_state
@@ -83,3 +74,18 @@ func cast_ray_to_mouse():
 			if object_hit.has_method("toggle_size"):
 				object_hit.toggle_size()
 				print("Box terkena raycast!")
+
+
+
+
+
+func _on_range_body_entered(body: Node2D) -> void:
+	if body is Box:
+		is_in_range = true
+		target_object = body
+
+
+func _on_range_body_exited(body: Node2D) -> void:
+	if body is Box:
+		is_in_range = false
+		target_object = null

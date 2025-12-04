@@ -1,4 +1,5 @@
 extends RigidBody2D
+class_name Box
 
 
 ## POSITIVE FOR SMALL, NEGATIVE FOR LARGE.
