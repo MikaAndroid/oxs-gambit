@@ -12,7 +12,9 @@ radius = 48.0
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_g2els")
 speed = 150
+gravity = null
 jump_force = 700
+push_force = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -9.536743e-07)
@@ -29,7 +31,7 @@ shape = SubResource("RectangleShape2D_g2els")
 shape = SubResource("CircleShape2D_g2els")
 
 [node name="HandPosition" type="Marker2D" parent="."]
-position = Vector2(0, -32)
+position = Vector2(0, -24)
 
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]
 [connection signal="body_exited" from="Range" to="." method="_on_range_body_exited"]

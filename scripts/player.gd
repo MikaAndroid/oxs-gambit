@@ -1,15 +1,17 @@
 extends CharacterBody2D
 
 @export var speed = 300
-@export var gravity = 30
+@export var gravity: float = 30
 @export var jump_force = 300
 @export var push_force = 15.0
 var is_in_range: bool = false
-var target_object: Node2D
+var target_object: RigidBody2D
+var held_object: RigidBody2D
 @onready var hand_position: Marker2D = $HandPosition
 
 func _physics_process(delta):
 	pickup_object()
+	drop_object()
 	if !is_on_floor():
 		velocity.y += gravity
 		if velocity.y > 500:
@@ -45,9 +47,19 @@ func _input(event):
 
 func pickup_object() -> void:
 	if is_in_range:
-		if Input.is_action_just_pressed("pickup"):
-			target_object.reparent(hand_position)
-		
+		if Input.is_action_just_pressed("pickup") and !held_object:
+			held_object = target_object
+			held_object.reparent(hand_position)
+			held_object.position = hand_position.position
+			held_object.freeze = true
+
+func drop_object() -> void:
+	if Input.is_action_just_pressed("drop") and held_object:
+		held_object.reparent(get_parent())
+		held_object.position = position +Vector2.RIGHT * 50
+		held_object.freeze = false
+		held_object = null
+
 func cast_ray_to_mouse():
 		# 1. Ambil state physics dunia game saat ini
 		var space_state = get_world_2d().direct_space_state
