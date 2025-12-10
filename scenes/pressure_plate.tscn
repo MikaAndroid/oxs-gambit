@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://cgeddow11m2fh"]
+
+[ext_resource type="Script" uid="uid://ci7hs4tqkjnxo" path="res://scripts/pressure_plate.gd" id="1_xtofl"]
+[ext_resource type="Texture2D" uid="uid://bhcc2nqw31el2" path="res://( D&K ) Caves Tile V.2.png" id="2_r34r6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gubfq"]
+atlas = ExtResource("2_r34r6")
+region = Rect2(96, 120, 16, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e2cdq"]
+size = Vector2(16, 8)
+
+[node name="pressure_plate" type="Area2D"]
+script = ExtResource("1_xtofl")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_gubfq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_e2cdq")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

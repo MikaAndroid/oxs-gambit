@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://5nsl8und4t4s"]
+
+[ext_resource type="Script" uid="uid://bfw3ne3kmawke" path="res://scripts/door.gd" id="1_uvdjg"]
+[ext_resource type="Texture2D" uid="uid://d1aawmojvo1b8" path="res://Dungeon Tile Set.png" id="2_83dcw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_la1wf"]
+atlas = ExtResource("2_83dcw")
+region = Rect2(192, 160, 16, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_18pbm"]
+size = Vector2(16, 32)
+
+[node name="door" type="StaticBody2D"]
+script = ExtResource("1_uvdjg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_la1wf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_18pbm")
