@@ -2,8 +2,7 @@ extends Area2D
 
 @export_file("*.tscn") var next_level_path: String
 
-func _on_body_entered(body):
-	# Cek apakah yang masuk adalah Player
+func _on_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
 		if next_level_path == "" or next_level_path == null:
 			print("Error: Path level selanjutnya belum diisi di Inspector!")

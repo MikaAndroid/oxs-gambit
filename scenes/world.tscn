@@ -16,6 +16,7 @@ size = Vector2(1002.5, 103)
 
 [node name="endflag" parent="." instance=ExtResource("5_qfnet")]
 position = Vector2(488, 224)
+next_level_path = "uid://b70l3gi3coxs"
 
 [node name="Player" parent="." instance=ExtResource("1_nnsk1")]
 position = Vector2(136, 344)
