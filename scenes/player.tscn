@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bs5o6aeruxqji"]
+[gd_scene load_steps=6 format=3 uid="uid://bs5o6aeruxqji"]
 
 [ext_resource type="Texture2D" uid="uid://c8f3ro52u4svh" path="res://icon.svg" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://bdwvn7e2m2h44" path="res://scripts/player.gd" id="1_g2els"]
@@ -9,12 +9,13 @@ size = Vector2(16, 24)
 [sub_resource type="CircleShape2D" id="CircleShape2D_g2els"]
 radius = 48.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qhqgy"]
+size = Vector2(6, 6)
+
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_g2els")
 speed = 150
-gravity = null
 jump_force = 700
-push_force = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -9.536743e-07)
@@ -31,7 +32,12 @@ shape = SubResource("RectangleShape2D_g2els")
 shape = SubResource("CircleShape2D_g2els")
 
 [node name="HandPosition" type="Marker2D" parent="."]
-position = Vector2(0, -24)
+
+[node name="Area2D" type="Area2D" parent="HandPosition"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HandPosition/Area2D"]
+shape = SubResource("RectangleShape2D_qhqgy")
+debug_color = Color(0.59607846, 0.37254903, 1, 1)
 
 [connection signal="body_entered" from="Range" to="." method="_on_range_body_entered"]
 [connection signal="body_exited" from="Range" to="." method="_on_range_body_exited"]

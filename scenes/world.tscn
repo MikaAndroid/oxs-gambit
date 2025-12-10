@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=4 uid="uid://dyecn4dtld7dp"]
+[gd_scene load_steps=8 format=4 uid="uid://dyecn4dtld7dp"]
 
 [ext_resource type="PackedScene" uid="uid://bs5o6aeruxqji" path="res://scenes/player.tscn" id="1_nnsk1"]
 [ext_resource type="TileSet" uid="uid://pk3fjuvaqj71" path="res://tilesets/dungeon.tres" id="3_k0juu"]
+[ext_resource type="PackedScene" uid="uid://bq32r38bq8leu" path="res://spike.tscn" id="4_k0juu"]
 [ext_resource type="PackedScene" uid="uid://deijh4pgt0v7k" path="res://scenes/box.tscn" id="5_71j4m"]
+[ext_resource type="PackedScene" uid="uid://cu41ifim8x6t0" path="res://scenes/endflag.tscn" id="5_qfnet"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_nnsk1"]
 size = Vector2(1000, 100)
@@ -12,12 +14,15 @@ size = Vector2(1002.5, 103)
 
 [node name="World" type="Node2D"]
 
+[node name="endflag" parent="." instance=ExtResource("5_qfnet")]
+position = Vector2(488, 224)
+
 [node name="Player" parent="." instance=ExtResource("1_nnsk1")]
 position = Vector2(136, 344)
 speed = 300
-gravity = 30.0
 jump_force = 500
 push_force = 100.0
+hand_radius = 35.0
 
 [node name="platform" type="StaticBody2D" parent="."]
 
@@ -52,3 +57,6 @@ position = Vector2(352, 320)
 mass = 0.5
 size_small = Vector2(1, 1)
 size_large = Vector2(3, 3)
+
+[node name="spike" parent="." instance=ExtResource("4_k0juu")]
+position = Vector2(280, 344)

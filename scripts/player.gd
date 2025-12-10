@@ -7,15 +7,19 @@ extends CharacterBody2D
 var is_in_range: bool = false
 var target_object: RigidBody2D
 var held_object: RigidBody2D
-var starting_position: Vector2 = position
+var starting_position: Vector2
 @onready var hand_position: Marker2D = $HandPosition
+@export var hand_radius: float = 24.0 # Jarak HandPosition dari tengah Player
 
 func _physics_process(delta):
+	update_hand_position()
+	
 	if Input.is_action_just_pressed("pickup"):
 		if held_object == null:
 			pickup_object()
 		else:
 			drop_object()
+	
 	if !is_on_floor():
 		velocity.y += gravity
 		if velocity.y > 500:
@@ -44,6 +48,12 @@ func _physics_process(delta):
 	Global.plr_pos = self.global_position
 	#print(velocity)
 
+func _ready():
+	# Simpan posisi awal saat game benar-benar dimulai
+	starting_position = global_position
+	# Tambahkan line ini agar Player masuk ke group "Player" (opsional, untuk deteksi lebih aman)
+	add_to_group("Player")
+
 func _input(event):
 		# Cek apakah event adalah klik kiri mouse (Mouse Button Left)
 		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
@@ -53,14 +63,15 @@ func pickup_object() -> void:
 	if is_in_range:
 		#if Input.is_action_just_pressed("pickup") and !held_object:
 			held_object = target_object
-			held_object.reparent(hand_position)
-			held_object.position = hand_position.position
 			held_object.freeze = true
+			held_object.reparent(hand_position)
+			held_object.position = Vector2.ZERO
+			
 
 func drop_object() -> void:
 	#if Input.is_action_just_pressed("drop") and held_object:
 		held_object.reparent(get_parent())
-		held_object.position = position +Vector2.RIGHT * 50
+		#held_object.position = position +Vector2.RIGHT * 50
 		held_object.freeze = false
 		held_object = null
 
@@ -94,7 +105,18 @@ func cast_ray_to_mouse():
 func die() -> void:
 	position = starting_position
 
-
+func update_hand_position():
+	# 1. Dapatkan posisi mouse di dunia game
+	var mouse_pos = get_global_mouse_position()
+	
+	# 2. Hitung arah dari Player ke Mouse
+	# global_position adalah posisi Player saat ini
+	var direction = (mouse_pos - global_position).normalized()
+	
+	# 3. Set posisi HandPosition
+	# Karena HandPosition adalah child dari Player, posisinya (0,0) adalah tengah Player.
+	# Kita cukup set posisi lokalnya berdasarkan arah * radius.
+	hand_position.position = direction * hand_radius
 
 func _on_range_body_entered(body: Node2D) -> void:
 	if body is Box:
