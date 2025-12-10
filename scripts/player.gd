@@ -7,11 +7,15 @@ extends CharacterBody2D
 var is_in_range: bool = false
 var target_object: RigidBody2D
 var held_object: RigidBody2D
+var starting_position: Vector2 = position
 @onready var hand_position: Marker2D = $HandPosition
 
 func _physics_process(delta):
-	pickup_object()
-	drop_object()
+	if Input.is_action_just_pressed("pickup"):
+		if held_object == null:
+			pickup_object()
+		else:
+			drop_object()
 	if !is_on_floor():
 		velocity.y += gravity
 		if velocity.y > 500:
@@ -47,14 +51,14 @@ func _input(event):
 
 func pickup_object() -> void:
 	if is_in_range:
-		if Input.is_action_just_pressed("pickup") and !held_object:
+		#if Input.is_action_just_pressed("pickup") and !held_object:
 			held_object = target_object
 			held_object.reparent(hand_position)
 			held_object.position = hand_position.position
 			held_object.freeze = true
 
 func drop_object() -> void:
-	if Input.is_action_just_pressed("drop") and held_object:
+	#if Input.is_action_just_pressed("drop") and held_object:
 		held_object.reparent(get_parent())
 		held_object.position = position +Vector2.RIGHT * 50
 		held_object.freeze = false
@@ -87,7 +91,8 @@ func cast_ray_to_mouse():
 				object_hit.toggle_size()
 				print("Box terkena raycast!")
 
-
+func die() -> void:
+	position = starting_position
 
 
 
@@ -101,3 +106,8 @@ func _on_range_body_exited(body: Node2D) -> void:
 	if body is Box:
 		is_in_range = false
 		target_object = null
+
+
+func _on_spike_body_entered(body: Node2D) -> void:
+	if body.name == "Player":
+		body.die()
