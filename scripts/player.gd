@@ -1,15 +1,16 @@
 extends CharacterBody2D
 
-@export var speed = 300
+@export var speed = 150
 @export var gravity: float = 30
-@export var jump_force = 300
+@export var jump_force = 450
 @export var push_force = 15.0
 var is_in_range: bool = false
 var target_object: RigidBody2D
 var held_object: RigidBody2D
 var starting_position: Vector2
 @onready var hand_position: Marker2D = $HandPosition
-@export var hand_radius: float = 24.0 # Jarak HandPosition dari tengah Player
+@export var default_hand_radius: float = 35.0 # Jarak HandPosition dari tengah Player
+var current_hand_radius: float = 35.0
 
 func _physics_process(delta):
 	update_hand_position()
@@ -60,12 +61,14 @@ func _input(event):
 			cast_ray_to_mouse()
 
 func pickup_object() -> void:
-	if is_in_range:
+	if is_in_range and target_object:
 		#if Input.is_action_just_pressed("pickup") and !held_object:
 			held_object = target_object
 			held_object.freeze = true
 			held_object.reparent(hand_position)
 			held_object.position = Vector2.ZERO
+			#held_object.rotation = 0 # Reset rotasi agar lurus
+			calculate_new_radius(held_object)
 			
 
 func drop_object() -> void:
@@ -74,6 +77,7 @@ func drop_object() -> void:
 		#held_object.position = position +Vector2.RIGHT * 50
 		held_object.freeze = false
 		held_object = null
+		current_hand_radius = default_hand_radius
 
 func cast_ray_to_mouse():
 		# 1. Ambil state physics dunia game saat ini
@@ -106,17 +110,29 @@ func die() -> void:
 	position = starting_position
 
 func update_hand_position():
-	# 1. Dapatkan posisi mouse di dunia game
+	
 	var mouse_pos = get_global_mouse_position()
-	
-	# 2. Hitung arah dari Player ke Mouse
-	# global_position adalah posisi Player saat ini
 	var direction = (mouse_pos - global_position).normalized()
+	hand_position.position = direction * current_hand_radius
 	
-	# 3. Set posisi HandPosition
-	# Karena HandPosition adalah child dari Player, posisinya (0,0) adalah tengah Player.
-	# Kita cukup set posisi lokalnya berdasarkan arah * radius.
-	hand_position.position = direction * hand_radius
+
+func calculate_new_radius(obj: RigidBody2D):
+	# Kita cari node CollisionShape2D di dalam objek box
+	var col_shape = obj.get_node_or_null("CollisionShape2D")
+	
+	if col_shape and col_shape.shape is RectangleShape2D:
+		# Ambil ukuran shape saat ini (size di block.gd berubah-ubah sesuai small/large)
+		var box_size = col_shape.shape.size
+		
+		# Ambil sisi terpanjang (x atau y) agar aman
+		var max_side = max(box_size.x, box_size.y)
+		
+		# RUMUS: Radius Default + (Setengah Ukuran Box) + Buffer (misal 2 pixel)
+		# Ini memastikan pinggiran box tidak menabrak titik tengah player
+		current_hand_radius = default_hand_radius + (max_side / 2) + 2
+	else:
+		# Jika bentuk tidak dikenali, pakai default saja
+		current_hand_radius = default_hand_radius
 
 func _on_range_body_entered(body: Node2D) -> void:
 	if body is Box:

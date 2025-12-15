@@ -12,9 +12,6 @@ size = Vector2(16, 16)
 
 [node name="Box" type="RigidBody2D"]
 script = ExtResource("1_ks2v0")
-size_small = Vector2(18, 18)
-size_large = Vector2(36, 36)
-mass_default = 1.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("AtlasTexture_ks2v0")
