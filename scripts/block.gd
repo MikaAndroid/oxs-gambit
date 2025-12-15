@@ -24,6 +24,8 @@ class_name Box
 
 
 func _ready():
+	if collision_shape_2d.shape:
+		collision_shape_2d.shape = collision_shape_2d.shape.duplicate()
 	Global.boxes_array.append(self)
 	self.mass = mass_default
 	size_properties()

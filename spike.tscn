@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://d1aawmojvo1b8" path="res://Dungeon Tile Set.png" id="1_8ryga"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7k7bx"]
-size = Vector2(16, 16)
+size = Vector2(16, 9)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tggh8"]
 atlas = ExtResource("1_8ryga")
@@ -14,6 +14,7 @@ region = Rect2(16, 224, 16, 16)
 script = ExtResource("1_7k7bx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3.5)
 shape = SubResource("RectangleShape2D_7k7bx")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

@@ -21,11 +21,6 @@ tile_set = ExtResource("3_es01l")
 position = Vector2(488, 224)
 next_level_path = "uid://b70l3gi3coxs"
 
-[node name="Player" parent="." instance=ExtResource("2_wfs7u")]
-position = Vector2(136, 340)
-jump_force = 450
-push_force = 50.0
-
 [node name="platform" type="StaticBody2D" parent="."]
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="platform"]
@@ -53,5 +48,6 @@ zoom = Vector2(2, 2)
 [node name="Box" parent="." instance=ExtResource("4_0naf5")]
 position = Vector2(88, 344)
 mass = 0.5
-size_small = Vector2(1, 1)
-size_large = Vector2(3, 3)
+
+[node name="Player" parent="." instance=ExtResource("2_wfs7u")]
+position = Vector2(136, 340)

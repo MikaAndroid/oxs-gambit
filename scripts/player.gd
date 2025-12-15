@@ -3,7 +3,9 @@ extends CharacterBody2D
 @export var speed = 150
 @export var gravity: float = 30
 @export var jump_force = 450
-@export var push_force = 15.0
+@export var push_force = 50.0
+@export var coyote_time: float = 0.15 # Toleransi waktu (detik)
+var coyote_timer: float = 0.0
 var is_in_range: bool = false
 var target_object: RigidBody2D
 var held_object: RigidBody2D
@@ -21,14 +23,27 @@ func _physics_process(delta):
 		else:
 			drop_object()
 	
-	if !is_on_floor():
+	if held_object:
+		# Hitung jarak dari posisi Box sekarang ke posisi Tangan
+		var target_pos = hand_position.global_position
+		var direction_vector = target_pos - held_object.global_position
+		
+		# Gerakkan Box. move_and_collide akan mengembalikan data jika nabrak tembok
+		# Box akan berhenti di tembok dan tidak tembus
+		held_object.move_and_collide(direction_vector)
+		
+	if is_on_floor():
+		coyote_timer = coyote_time
+	else:
+		coyote_timer -= delta
 		velocity.y += gravity
 		if velocity.y > 500:
 			velocity.y = 500
 
 	if Input.is_action_just_pressed("jump"):
-		if is_on_floor():
+		if coyote_timer > 0:
 			velocity.y = -jump_force
+			coyote_timer = 0.0
 
 	var horizontal_direction = Input.get_axis("move_left","move_right")
 	velocity.x = speed * horizontal_direction
@@ -64,17 +79,21 @@ func pickup_object() -> void:
 	if is_in_range and target_object:
 		#if Input.is_action_just_pressed("pickup") and !held_object:
 			held_object = target_object
+			held_object.freeze_mode = RigidBody2D.FREEZE_MODE_KINEMATIC
 			held_object.freeze = true
-			held_object.reparent(hand_position)
-			held_object.position = Vector2.ZERO
+			#held_object.reparent(hand_position)
+			#held_object.position = Vector2.ZERO
 			#held_object.rotation = 0 # Reset rotasi agar lurus
+			#add_collision_exception_with(held_object)
 			calculate_new_radius(held_object)
 			
 
 func drop_object() -> void:
 	#if Input.is_action_just_pressed("drop") and held_object:
-		held_object.reparent(get_parent())
+		#held_object.reparent(get_parent())
 		#held_object.position = position +Vector2.RIGHT * 50
+		#remove_collision_exception_with(held_object)
+		held_object.freeze_mode = RigidBody2D.FREEZE_MODE_STATIC
 		held_object.freeze = false
 		held_object = null
 		current_hand_radius = default_hand_radius
