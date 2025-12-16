@@ -14,6 +14,7 @@ tile_set = ExtResource("1_6j14n")
 
 [node name="endflag" parent="." instance=ExtResource("2_wom6i")]
 position = Vector2(248, -32)
+next_level_path = "uid://htpjjyfja28d"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(8, 17)
