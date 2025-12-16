@@ -17,6 +17,7 @@ size_large = Vector2(3, 3)
 size_default = Vector2(16, 16)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
 texture = SubResource("AtlasTexture_ks2v0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

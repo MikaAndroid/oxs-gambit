@@ -11,6 +11,7 @@ atlas = ExtResource("1_8ryga")
 region = Rect2(16, 224, 16, 16)
 
 [node name="spike" type="Area2D"]
+texture_filter = 1
 script = ExtResource("1_7k7bx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

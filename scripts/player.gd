@@ -3,7 +3,7 @@ extends CharacterBody2D
 @export var speed = 150
 @export var gravity: float = 30
 @export var jump_force = 450
-@export var push_force = 50.0
+@export var push_force = 75.0
 @export var coyote_time: float = 0.15 # Toleransi waktu (detik)
 var coyote_timer: float = 0.0
 var is_in_range: bool = false
@@ -74,6 +74,10 @@ func _input(event):
 		# Cek apakah event adalah klik kiri mouse (Mouse Button Left)
 		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 			cast_ray_to_mouse()
+		
+		if Input.is_action_just_pressed("reset"):
+		# call_deferred digunakan agar reload aman dilakukan di akhir frame
+			call_deferred("reset_level")
 
 func pickup_object() -> void:
 	if is_in_range and target_object:
@@ -152,6 +156,12 @@ func calculate_new_radius(obj: RigidBody2D):
 	else:
 		# Jika bentuk tidak dikenali, pakai default saja
 		current_hand_radius = default_hand_radius
+
+func reset_level():
+	# Membersihkan variabel global box jika perlu (tergantung implementasi array Anda)
+	Global.boxes_array.clear() 
+	# Memuat ulang scene yang sedang aktif
+	get_tree().reload_current_scene()
 
 func _on_range_body_entered(body: Node2D) -> void:
 	if body is Box:

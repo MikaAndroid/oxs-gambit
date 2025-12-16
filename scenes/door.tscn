@@ -11,6 +11,7 @@ region = Rect2(192, 160, 16, 32)
 size = Vector2(16, 32)
 
 [node name="door" type="StaticBody2D"]
+texture_filter = 1
 script = ExtResource("1_uvdjg")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
