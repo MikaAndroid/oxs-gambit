@@ -1,0 +1,117 @@
+[gd_scene load_steps=15 format=3 uid="uid://b85dowrd4km2y"]
+
+[ext_resource type="FontFile" uid="uid://dea3ipje1lld7" path="res://Early GameBoy.ttf" id="1_ekxnf"]
+[ext_resource type="Script" uid="uid://xv5708vs72v2" path="res://scripts/main_menu.gd" id="2_bqqt6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wu84c"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8ln24"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rtw2f"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oa1go"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tbmy8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jk1qb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5dd4i"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lgwnu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_flqon"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rcqid"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1ajci"]
+
+[sub_resource type="Theme" id="Theme_7b55j"]
+default_font = ExtResource("1_ekxnf")
+default_font_size = 16
+Button/colors/font_focus_color = Color(0.2509804, 0.38431373, 0.5921569, 1)
+Button/colors/font_hover_color = Color(0.72156864, 0.83137256, 1, 1)
+Button/colors/font_pressed_color = Color(0.20784314, 0.26666668, 0.38039216, 1)
+Button/styles/disabled = SubResource("StyleBoxEmpty_wu84c")
+Button/styles/disabled_mirrored = SubResource("StyleBoxEmpty_8ln24")
+Button/styles/focus = SubResource("StyleBoxEmpty_rtw2f")
+Button/styles/hover = SubResource("StyleBoxEmpty_oa1go")
+Button/styles/hover_mirrored = SubResource("StyleBoxEmpty_tbmy8")
+Button/styles/hover_pressed = SubResource("StyleBoxEmpty_jk1qb")
+Button/styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_5dd4i")
+Button/styles/normal = SubResource("StyleBoxEmpty_lgwnu")
+Button/styles/normal_mirrored = SubResource("StyleBoxEmpty_flqon")
+Button/styles/pressed = SubResource("StyleBoxEmpty_rcqid")
+Button/styles/pressed_mirrored = SubResource("StyleBoxEmpty_1ajci")
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_7b55j")
+script = ExtResource("2_bqqt6")
+next_level_path = "uid://dyecn4dtld7dp"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.06666667, 0.08627451, 0.12156863, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 32
+text = "Ox's Gambit"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonsVBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="StartGameButton" type="Button" parent="MarginContainer/VBoxContainer/ButtonsVBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_top = NodePath("../QuitButton")
+focus_neighbor_bottom = NodePath("../QuitButton")
+focus_next = NodePath("../QuitButton")
+focus_previous = NodePath("../QuitButton")
+text = "Start Game"
+
+[node name="QuitButton" type="Button" parent="MarginContainer/VBoxContainer/ButtonsVBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_top = NodePath("../StartGameButton")
+focus_neighbor_bottom = NodePath("../StartGameButton")
+focus_next = NodePath("../StartGameButton")
+focus_previous = NodePath("../StartGameButton")
+text = "Exit"
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ButtonsVBox/StartGameButton" to="." method="_on_start_game_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ButtonsVBox/QuitButton" to="." method="_on_quit_button_pressed"]
