@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://c1mbll0maya2s"]
+
+[ext_resource type="Script" uid="uid://dnlmqu1o4gwph" path="res://scripts/block.gd" id="1_jmhrc"]
+[ext_resource type="Texture2D" uid="uid://d1aawmojvo1b8" path="res://Dungeon Tile Set.png" id="2_0arx4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ghamj"]
+atlas = ExtResource("2_0arx4")
+region = Rect2(160, 144, 16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_opdqs"]
+size = Vector2(16, 16)
+
+[node name="plank" type="RigidBody2D"]
+script = ExtResource("1_jmhrc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = SubResource("AtlasTexture_ghamj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_opdqs")
