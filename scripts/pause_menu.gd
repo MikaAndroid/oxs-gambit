@@ -3,6 +3,8 @@ extends CanvasLayer
 @onready var resume_btn = $VBoxContainer/ResumeButton # Sesuaikan path node
 @onready var restart_btn = $VBoxContainer/RestartButton
 @onready var quit_btn = $VBoxContainer/QuitButton
+@onready var main_menu_button = $VBoxContainer/MainMenuButton
+
 
 func _ready():
 	# Sembunyikan menu saat awal game
@@ -16,7 +18,6 @@ func _input(event):
 		toggle_pause()
 
 func toggle_pause():
-	# Balikkan status pause (jika true jadi false, jika false jadi true)
 	get_tree().paused = not get_tree().paused
 	
 	# Tampilkan/Sembunyikan menu sesuai status pause
@@ -36,5 +37,12 @@ func _on_restart_button_pressed():
 	toggle_pause() # Unpause dulu sebelum reload agar tidak stuck
 	get_tree().reload_current_scene()
 
+
+
 func _on_quit_button_pressed():
 	get_tree().quit()
+
+
+func _on_main_menu_button_pressed():
+	toggle_pause()
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")

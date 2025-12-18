@@ -11,6 +11,7 @@
 [node name="level_5" type="Node2D"]
 
 [node name="TileMapLayer2" type="TileMapLayer" parent="."]
+texture_filter = 1
 tile_map_data = PackedByteArray("AADw//7/AQAIAAMAAADx////AQANAAMAAADy/wAAAQAMAAUAAADz/wEAAQANAAMAAAD0/wIAAQAJAAQAAAD1/wMAAQAJAAMAAAD2/wQAAQAJAAEAAAD3/wUAAQAMAAQAAAD4/wYAAQAIAAcAAAA=")
 tile_set = ExtResource("1_w2wna")
 
@@ -20,6 +21,7 @@ tile_map_data = PackedByteArray("AADw/wcAAQACAAIAAADx/wcAAQACAAIAAADy/wcAAQACAAI
 tile_set = ExtResource("1_w2wna")
 
 [node name="TileMapLayer3" type="TileMapLayer" parent="."]
+texture_filter = 1
 tile_map_data = PackedByteArray("AAAGAAUAAQABAAwAAAD1////AQAEAAwAAAD2////AQAFAAwAAAD3////AQAGAAwAAAA=")
 tile_set = ExtResource("1_w2wna")
 

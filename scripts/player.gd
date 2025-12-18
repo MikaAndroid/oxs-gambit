@@ -13,6 +13,7 @@ var starting_position: Vector2
 @onready var hand_position: Marker2D = $HandPosition
 @export var default_hand_radius: float = 35.0 # Jarak HandPosition dari tengah Player
 var current_hand_radius: float = 35.0
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 func _physics_process(delta):
 	update_hand_position()
@@ -47,6 +48,9 @@ func _physics_process(delta):
 
 	var horizontal_direction = Input.get_axis("move_left","move_right")
 	velocity.x = speed * horizontal_direction
+	
+	update_animations(horizontal_direction)
+	
 	move_and_slide()
 
 	for i in get_slide_collision_count():
@@ -174,6 +178,19 @@ func _on_range_body_exited(body: Node2D) -> void:
 		is_in_range = false
 		target_object = null
 
+func update_animations(direction: float):
+	# 1. Cek apakah sedang di tanah?
+	if is_on_floor():
+		if direction == 0:
+			animated_sprite.play("idle")
+		else:
+			animated_sprite.play("running")
+	else:
+		# Jika di udara, mainkan animasi lompat
+		animated_sprite.play("jump")
+	
+	if direction != 0:
+		animated_sprite.flip_h = (direction < 0)
 
 func _on_spike_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
